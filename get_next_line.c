@@ -54,12 +54,12 @@ int		ft_strlen(const char *str)
 	return (len);
 }
 
-int		process_output(int n_read, char *s, char **line)
+int		process_output(int fd, int n_read, char *s, char **line)
 {
 	char *nlptr;
 	char *nexts;
 
-	if (n_read < 0)
+	if (fd < 0 || n_read < 0 || BUFFER_SIZE < 0)
 		return (-1);
 	if ((nlptr = ft_strchr(s, '\n')))
 	{
@@ -88,7 +88,7 @@ int		get_next_line(int fd, char **line)
 	char		*temp;
 
 	n_read = 0;
-	while ((!s[fd] || !ft_strchr(s[fd], '\n'))
+	while ((fd >= 0 && BUFFER_SIZE > 0) && (!s[fd] || !ft_strchr(s[fd], '\n'))
 	&& (n_read = read(fd, buff, BUFFER_SIZE)) > 0)
 	{
 		buff[n_read] = '\0';
@@ -106,5 +106,5 @@ int		get_next_line(int fd, char **line)
 		}
 		free(temp);
 	}
-	return (process_output(n_read, s[fd], line));
+	return (process_output(fd, n_read, s[fd], line));
 }
