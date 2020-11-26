@@ -88,7 +88,7 @@ int		get_next_line(int fd, char **line)
 	char		*temp;
 
 	n_read = 0;
-	while ((fd >= 0 && BUFFER_SIZE > 0) && (!s[fd] || !ft_strchr(s[fd], '\n'))
+	while ((fd >= 0 && BUFFER_SIZE > 0 && line) && (!s[fd] || !ft_strchr(s[fd], '\n'))
 	&& (n_read = read(fd, buff, BUFFER_SIZE)) > 0)
 	{
 		buff[n_read] = '\0';
