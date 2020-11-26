@@ -14,7 +14,6 @@
 # define GET_NEXT_LINE_GET_NEXT_LINE_H
 # include <unistd.h>
 # include <stdlib.h>
-# define BUFFER_SIZE 32
 
 int		get_next_line(int fd, char **line);
 char	*ft_strjoin(char const *s1, char const *s2);
