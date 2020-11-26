@@ -41,17 +41,17 @@ int		ft_strlen(const char *str)
 
 int		process_output(int fd, int n_read, char *s, char **line)
 {
-	char *nlptr;
-	char *nexts;
-
 	if (fd < 0 || n_read < 0 || BUFFER_SIZE < 1 || !line)
-		return (-1);
-	if ((nlptr = ft_strchr(s, '\n')))
 	{
-		*nlptr = '\0';
+		free(s);
+		return (-1);
+	}
+	if (ft_strchr(s, '\n'))
+	{
+		*ft_strchr(s, '\n') = '\0';
 		*line = ft_strdup(s);
-		nexts = s + ft_strlen(s) + 1;
-		ft_strlcpy(s, nexts, ft_strlen(nexts) + 1);
+		ft_strlcpy(s, s + ft_strlen(s) + 1,
+	ft_strlen(s + ft_strlen(s) + 1) + 1);
 		return (1);
 	}
 	else if (s[0])
