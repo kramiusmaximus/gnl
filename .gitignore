@@ -1,0 +1,7 @@
+cmake-build-debug
+main.c
+CMakeLists.txt
+test
+test.sh
+.idea
+
