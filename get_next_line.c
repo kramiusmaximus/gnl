@@ -59,7 +59,7 @@ int		process_output(int fd, int n_read, char *s, char **line)
 	char *nlptr;
 	char *nexts;
 
-	if (fd < 0 || n_read < 0 || BUFFER_SIZE < 0)
+	if (fd < 0 || n_read < 0 || BUFFER_SIZE < 1)
 		return (-1);
 	if ((nlptr = ft_strchr(s, '\n')))
 	{
@@ -83,7 +83,7 @@ int		process_output(int fd, int n_read, char *s, char **line)
 int		get_next_line(int fd, char **line)
 {
 	static char	*s[4096];
-	char		buff[BUFFER_SIZE + 1];
+	char		buff[(BUFFER_SIZE > 0) ? BUFFER_SIZE + 1 : 1];
 	int			n_read;
 	char		*temp;
 
