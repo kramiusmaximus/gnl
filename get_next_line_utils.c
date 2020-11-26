@@ -79,11 +79,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	l1 = ft_strlen(s1);
 	l2 = ft_strlen(s2);
-	res = ft_calloc(l1 + l2 + 1, sizeof(char));
+	res = malloc((l1 + l2 + 1) * sizeof(char));
 	if (res)
 	{
+		res[0] = '\0';
 		ft_strlcat(res, s1, (l1 + l2 + 1) * sizeof(char));
 		ft_strlcat(res, s2, (l1 + l2 + 1) * sizeof(char));
 	}
+	free((void *)s1);
 	return (res);
 }

@@ -12,21 +12,6 @@
 
 #include "get_next_line.h"
 
-void	*ft_calloc(size_t count, size_t bsize)
-{
-	char	*ptr;
-	char	*curr;
-
-	ptr = malloc(count * bsize);
-	if (ptr)
-	{
-		curr = ptr;
-		while (count-- > 0)
-			*curr++ = '\0';
-	}
-	return (ptr);
-}
-
 void	*ft_memcpy(void *dst, const void *src, size_t len)
 {
 	unsigned char		*ptrdst;
@@ -72,23 +57,26 @@ int		process_output(int fd, int n_read, char *s, char **line)
 	else if (s[0])
 	{
 		if (!(*line = ft_strdup(s)))
+		{
+			free(s);
 			return (-1);
+		}
 		s[0] = '\0';
 		return (1);
 	}
-	else
-		return (0);
+	free(s);
+	return (0);
 }
 
 int		get_next_line(int fd, char **line)
 {
-	static char	*s[4096];
+	static char	*s[2048];
 	char		buff[(BUFFER_SIZE > 0) ? BUFFER_SIZE + 1 : 1];
 	int			n_read;
-	char		*temp;
 
 	n_read = 0;
-	while ((fd >= 0 && BUFFER_SIZE > 0 && line) && (!s[fd] || !ft_strchr(s[fd], '\n'))
+	while ((fd >= 0 && BUFFER_SIZE > 0 && line)
+	&& (!s[fd] || !ft_strchr(s[fd], '\n'))
 	&& (n_read = read(fd, buff, BUFFER_SIZE)) > 0)
 	{
 		buff[n_read] = '\0';
@@ -98,13 +86,8 @@ int		get_next_line(int fd, char **line)
 				return (-1);
 			continue ;
 		}
-		temp = s[fd];
 		if (!(s[fd] = ft_strjoin(s[fd], buff)))
-		{
-			free(temp);
 			return (-1);
-		}
-		free(temp);
 	}
 	return (process_output(fd, n_read, s[fd], line));
 }
