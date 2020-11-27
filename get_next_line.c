@@ -86,5 +86,8 @@ int		get_next_line(int fd, char **line)
 		if (!(s[fd] = ft_strjoin(s[fd], buff)))
 			return (-1);
 	}
+	if (!s[fd])
+		if (!(s[fd] = ft_strdup("\0")))
+			return (-1);
 	return (process_output(fd, n_read, &s[fd], line));
 }
