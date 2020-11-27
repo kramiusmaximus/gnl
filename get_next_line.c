@@ -40,28 +40,34 @@ int		ft_strlen(const char *str)
 	return (len);
 }
 
+int		liberate_s(char **s, int out)
+{
+	free(*s);
+	*s = NULL;
+	return (out);
+}
+
 int		process_output(int fd, int n_read, char **s, char **line)
 {
+	char *ptrns;
+	char *ptrnl;
+
 	if (fd < 0 || n_read < 0 || BUFFER_SIZE < 1 || !line)
 		return (-1);
-	if (ft_strchr(*s, '\n'))
+	if ((ptrnl = ft_strchr(*s, '\n')))
 	{
-		*ft_strchr(*s, '\n') = '\0';
-		*line = ft_strdup(*s);
-		ft_strlcpy(*s, *s + ft_strlen(*s) + 1,
-	ft_strlen(*s + ft_strlen(*s) + 1) + 1);
+		*ptrnl = '\0';
+		if (!(*line = ft_strdup(*s)))
+			return (liberate_s(s, -1));
+		ptrns = *s + ft_strlen(*s) + 1;
+		ft_strlcpy(*s, ptrns, ft_strlen(ptrns) + 1);
 		return (1);
 	}
 	else
 	{
 		if (!(*line = ft_strdup(*s)))
-		{
-			free(*s);
-			return (-1);
-		}
-		free(*s);
-		*s = NULL;
-		return (0);
+			return (liberate_s(s, -1));
+		return (liberate_s(s, 0));
 	}
 }
 
