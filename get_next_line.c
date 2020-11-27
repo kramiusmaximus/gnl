@@ -42,10 +42,7 @@ int		ft_strlen(const char *str)
 int		process_output(int fd, int n_read, char *s, char **line)
 {
 	if (fd < 0 || n_read < 0 || BUFFER_SIZE < 1 || !line)
-	{
-		free(s);
 		return (-1);
-	}
 	if (ft_strchr(s, '\n'))
 	{
 		*ft_strchr(s, '\n') = '\0';
@@ -54,18 +51,16 @@ int		process_output(int fd, int n_read, char *s, char **line)
 	ft_strlen(s + ft_strlen(s) + 1) + 1);
 		return (1);
 	}
-	else if (s[0])
+	else
 	{
 		if (!(*line = ft_strdup(s)))
 		{
 			free(s);
 			return (-1);
 		}
-		s[0] = '\0';
-		return (1);
+		free(s);
+		return (0);
 	}
-	free(s);
-	return (0);
 }
 
 int		get_next_line(int fd, char **line)
